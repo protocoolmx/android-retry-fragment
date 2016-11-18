@@ -1,0 +1,5 @@
+<resources>
+    <string name="cool_proto_surf_retry_fragment_loading">Loading...</string>
+    <string name="cool_proto_surf_retry_fragment_retry_message">An error has occurred.</string>
+    <string name="cool_proto_surf_retry_fragment_retry_button">Retry</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cool_proto_surf_retry_fragment_loading">Cargando...</string>
+    <string name="cool_proto_surf_retry_fragment_retry_message">Se ha producido un error.</string>
+    <string name="cool_proto_surf_retry_fragment_retry_button">Reintentar</string>
+</resources>
