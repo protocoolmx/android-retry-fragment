@@ -3,60 +3,66 @@ package cool.proto.android.retry.fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import android.view.View;
-import android.widget.FrameLayout;
-
-import cool.proto.retry.fragment.LoadingBuilder;
-import cool.proto.retry.fragment.LoadingContainer;
-import cool.proto.retry.fragment.LoadingFragment;
-import cool.proto.retry.fragment.RetryErrorBuilder;
-import cool.proto.retry.fragment.RetryFragment;
+import cool.proto.retry.fragment.Retry;
+import cool.proto.retry.fragment.builders.LoadingFragmentBuilder;
+import cool.proto.retry.fragment.builders.RetryFragmentBuilder;
+import cool.proto.retry.fragment.callbacks.RetryAsyncTaskCallback;
+import cool.proto.retry.fragment.callbacks.RetryCriteriaCallback;
+import cool.proto.retry.fragment.RetryMain;
+import cool.proto.retry.fragment.RetryTaskRunner;
+import cool.proto.retry.fragment.callbacks.RetrySyncTaskCallback;
 
 /**
  * Created by moises on 26/09/16.
  */
 
-public class SecondActivity extends AppCompatActivity implements LoadingFragment.OnLoadingListener,
-        RetryFragment.OnRetryListener {
+public class SecondActivity extends AppCompatActivity implements
+        RetryCriteriaCallback,
+//        RetrySyncTaskCallback,
+        RetryAsyncTaskCallback {
 
-    private LoadingFragment loadingFragment;
-
-    private int i = 0;
+    RetryMain retryMain;
+    private int numberOfRetries;
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.activity_second);
 
-        loading();
+        retryMain = new RetryMain(this);
+        retryMain.setCustomLoading(
+                new LoadingFragmentBuilder()
+                        .withMessage("JAHA")
+                        .withDelayTime(2000)
+                        .withIcon(android.R.drawable.ic_btn_speak_now)
+                        .build())
+                .startAsyncTask();
+//                .startSyncTask();
+
     }
 
-    public void loading() {
-        LoadingContainer.loadingStart(this);
+    @Override
+    public boolean retryCriteria() {
 
-        loadingFragment = new LoadingBuilder()
-                .withIcon(android.R.drawable.btn_star)
-                .withMessage("Hola")
-                .withDelayTime(1000)
-                .build().show(this);
+        return numberOfRetries == 2;
     }
 
-    public void onLoadingFinish() {
-        // Do something while loading callback
-        if (i == 2) {
-            LoadingContainer.loadingEnd(this);
-        } else {
-            new RetryErrorBuilder()
-                    .withMessage("custom error message")
-                    .withButtonMessage("JAJA")
-                    .withIcon(android.R.drawable.ic_media_ff)
-                    .build().show(this);
-        }
+    @Override
+    public void retryTask(RetryTaskRunner.TaskCompleteCallback taskCompleteCallback) {
+
+        numberOfRetries++;
+        retryMain.setCustomRetry(
+                new RetryFragmentBuilder()
+                        .withIcon(android.R.drawable.ic_delete)
+                        .withMessage("HHUEHUE")
+                        .build());
+        taskCompleteCallback.taskCompleted();
     }
 
-    public void onRetry() {
-        // Restart loading
-        loadingFragment.show(this);
-        i += 1;
-    }
+//    @Override
+//    public void retryTask() {
+//
+//        numberOfRetries++;
+//
+//    }
 }

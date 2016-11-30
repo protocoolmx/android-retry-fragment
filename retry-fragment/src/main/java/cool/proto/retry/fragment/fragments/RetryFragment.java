@@ -1,4 +1,4 @@
-package cool.proto.retry.fragment;
+package cool.proto.retry.fragment.fragments;
 
 
 import android.app.Activity;
@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import cool.proto.retry.fragment.R;
 
 /**
  * Created by moises on 26/09/16.
@@ -42,11 +44,15 @@ public class RetryFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        try {
-            callBack = (OnRetryListener) activity;
-        }catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + "must implement onLoadingListener");
-        }
+//        try {
+//            callBack = (OnRetryListener) activity;
+//        }catch (ClassCastException e) {
+//            throw new ClassCastException(activity.toString() + "must implement onLoadingListener");
+//        }
+    }
+
+    public void setCallBack(OnRetryListener callBack) {
+        this.callBack = callBack;
     }
 
     @Override

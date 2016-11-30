@@ -1,5 +1,6 @@
 package cool.proto.retry.fragment;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -10,13 +11,13 @@ import android.widget.FrameLayout;
 
 public abstract class LoadingContainer {
 
-    public static void loadingStart(AppCompatActivity activity){
+    public static void loadingStart(Activity activity) {
         FrameLayout frameLayout = (FrameLayout) activity.findViewById(R.id.fragment_container);
         frameLayout.setVisibility(View.VISIBLE);
 
     }
 
-    public static void loadingEnd(AppCompatActivity activity) {
+    public static void loadingEnd(Activity activity) {
         FrameLayout frameLayout = (FrameLayout) activity.findViewById(R.id.fragment_container);
         frameLayout.setVisibility(View.GONE);
     }

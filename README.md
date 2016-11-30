@@ -1,7 +1,7 @@
 # Retry-Fragment
 ## 0.3.0
 
-General retry fragment with available customization for the loading image, loading message, optional retry image, retry message, and retry button text.
+Easy to use, general loading and retry screen that works for doing certain task in the background. First showing a loading screen, if the criteria doesn't match shows a retry screen until the criteria matches and the screen disappear.
 
 ## Add to dependencies:
 
@@ -34,94 +34,140 @@ Also you must have your content and the include inside a RelativeLayout with con
                 <include layout="@layout/retry_fragment_container"/>
 ```
 
-Then in the activity you must add the listeners.
+Then in the activity implement the following listeners.
+
+**Note:** RetryTaskCallback exist as synchronous task (`RetrySyncTaskCallback`) and asynchronous task (`RetryAsyncTaskCallback`). Use the one that work better for you.
 
 ```java
-LoadingFragment.OnLoadingListener, RetryFragment.OnRetryListener
+RetryCriteriaCallback, RetryAsyncTaskCallback or RetrySyncTaskCallback
 
 
+@Override
+public boolean retryCriteria() {
+    // Return the criteria that you want to get from the task
+    return true;
+}
 
-    public void onLoadingFinish() {
-        //do something while loading callback
-    }
+// For RetryAsyncTaskCallback use this
+@Override
+public void retryTask(RetryTaskRunner.TaskCompleteCallback taskCompleteCallback) {
 
-    public void onRetry() {
-        //restart loading or do something else
-    }
+    // Task to run in background
+
+    taskCompleteCallback.taskCompleted();
+}
+
+// For RetrySyncTaskCallback use this
+@Override
+public void retryTask() {
+    // Task to run in background
+}
+
 ```
 
-### Example
+Finally create a new instance of `RetryMain(this)` and start `startAsyncTask()` or `startSyncTask()` depending on the type of task you want.
+
+```java
+RetryMain retryMain = new RetryMain(this);
+retryMain.startSyncTask();
+```
+
+## Customization
+
+You can customize the text and icon that appears in the loading and retry screen, using the `LoadingFragmentBuilder()` to customize the loading screen and `RetryFragmentBuilder()` to customize the retry screen.
+
+##### LoadingFragmentBuilder()
+
+With these you can customize the message of loading that appears, the time that passes before running the task and the icon that appears.
+
+```java
+retry.setCustomLoading(LoadingFragmentBuilder()
+                      .withMessage("Loading")
+                      .withIcon(R.drawable.icon)  
+                      .withDelayTime(3000)
+                      .build());
+```
+
+##### RetryFragmentBuilder()
+
+You can customize the error message, the button text and the error icon.
+
+```java
+retry.setCustomRetry(RetryFragmentBuilder()
+                      .withMessage("ERROR")
+                      .withIcon(R.drawable.error_icon)
+                      .withButtonMessage("Retry?")
+                      .build());
+```
+
+## Example
 
 **NOTE:** the **usage** module is an android project you can launch to check how it works.
 
-You can declare a variable for the LoadingFragment, and the RetryFragment but they are not necessary.
+We will start a new activity in which will have a task of adding 1 to a variable and check with the criteria if the variable is 2.
+
+first we add the implementation for `RetryCriteriaCallback` and `RetryAsyncTaskCallback`.
 
 ```java
-    private LoadingFragment loadingFragment;
-```
-In the onCreate of the activity you can add a method for easier reading.
+public class SecondActivity extends AppCompatActivity implements
+        RetryCriteriaCallback,
+        RetryAsyncTaskCallback {
 
-```java
-  @Override
-  public void onCreate(Bundle bundle){
-      super.onCreate(bundle);
-      setContentView(R.layout.activity);
-
-      // something else
-
-      loading();
+          @Override
+  public boolean retryCriteria() {
+      return numberOfRetries == 2;
   }
-```
 
-And this is the method of loading.
+  @Override
+  public void retryTask(RetryTaskRunner.TaskCompleteCallback taskCompleteCallback) {
+
+      numberOfRetries++;
+      retryMain.setCustomRetry(
+        new RetryFragmentBuilder()
+                .withIcon(android.R.drawable.ic_delete)
+                .withMessage("Custom Error")
+                .build());
+      taskCompleteCallback.taskCompleted();
+  }
+}
+```
+**Note** that we also create a custom retry for the proccess.
+
+Then in the `onCreate` we create a new instance and start the async task.
 
 ```java
-    public void loading() {
-      LoadingContainer.loadingStart(this);
+RetryMain retryMain;
+private int numberOfRetries;
 
-      loadingFragment = new LoadingBuilder()
-              .withIcon(android.R.drawable.btn_star)
-              .withMessage("LOADING")
-              .withDelayTime(1000)
-              .build().show(this);
+@Override
+public void onCreate(Bundle bundle) {
+    super.onCreate(bundle);
+    setContentView(R.layout.activity_second);
 
-    }
+    retryMain = new RetryMain(this);
+    retryMain.setCustomLoading(
+            new LoadingFragmentBuilder()
+                    .withMessage("Custom Loading")
+                    .withDelayTime(2000)
+                    .withIcon(android.R.drawable.ic_btn_speak_now)
+                    .build())
+            .startAsyncTask();
 
-    public void onLoadingFinish() {
-        // Do something while loading callback
-        if (i == 2) {
-            LoadingContainer.loadingEnd(this);
-        } else {
-            new RetryErrorBuilder()
-                    .withMessage("custom error message")
-                    .withButtonMessage("Retry?")
-                    .withIcon(android.R.drawable.ic_media_ff)
-                    .build().show(this);
-        }
-    }
-
-    public void onRetry() {
-        //restart loading or do something else
-        loadingFragment.show(this);
-        i += 1;
-    }
+}
 ```
 
-**NOTE:** All options of the Builder are optionals except for build(), you can omit whatever you don't need.
+So in short when we enter to the SecondActivity we will start with a custom loading screen and do the RetryAsyncTask, after that the criteria will not match with what we want so it will appear the custom retry screen.after we press the retry button and do the task again the criteria will match and the loading will be gone.
 
-The order above is first we appear the fragment container with `Loadingcontainer.loadingStart(this)`. Then we use the `LoadingBuilder()` to create a `LoadingFragment` with custom attributes and use show so it appears. then after the delay the `onLoadingFinish()` code is executed in which we check if `i == 2` then we disappear the fragment container with `Loadingcontainer.loadingEnd(this)`. if i isn't 2 yet we execute the `RetryErrorBuilder()` the same way we used the `LoadingBuilder()`, this show us the error screen with a button that executes the `onRetry()` function and this simply restarts the `loadingFragment` and adds 1 to i.
+And that's it.
 
-Make sure to have a `Loadingcontainer.loadingStart(this);`
-before the `loadingFragment`.
-
-And that's it. Now all the things you wish to do in the loading fragment you do them in the `onLoadingFinished`.
-
-And if there is an error you call the you replace the fragment with the error fragment. and the `onRetry()` listener happens when the user clicks on the retry button so you can also control what to do.
-
-### Done by:
+## Done by
 
 Moises Salas
 
 moises.salas@proto.cool
 
 moisesgsaa@gmail.com
+
+## License
+
+MIT

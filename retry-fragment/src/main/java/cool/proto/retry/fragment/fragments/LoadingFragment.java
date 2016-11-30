@@ -1,4 +1,4 @@
-package cool.proto.retry.fragment;
+package cool.proto.retry.fragment.fragments;
 
 import android.app.Activity;
 
@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import cool.proto.retry.fragment.R;
 
 /**
  * Created by moises on 26/09/16.
@@ -46,11 +48,15 @@ public class LoadingFragment extends Fragment {
         myContext = (FragmentActivity) activity;
         super.onAttach(activity);
 
-        try {
-            callBack = (OnLoadingListener) activity;
-        }catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + "must implement onLoadingListener");
-        }
+//        try {
+//            callBack = (OnLoadingListener) activity;
+//        }catch (ClassCastException e) {
+//            throw new ClassCastException(activity.toString() + "must implement onLoadingListener");
+//        }
+    }
+
+    public void setCallBack(OnLoadingListener callBack) {
+        this.callBack = callBack;
     }
 
     @Override
@@ -61,10 +67,10 @@ public class LoadingFragment extends Fragment {
 
         loadingMessage = getString(R.string.cool_proto_surf_retry_fragment_loading);
 
-        if (args != null){
+        if (args != null) {
             customize();
 
-            if (args.getInt(DELAY_TIME_KEY, 0) != 0){
+            if (args.getInt(DELAY_TIME_KEY, 0) != 0) {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -96,14 +102,15 @@ public class LoadingFragment extends Fragment {
         super.onPause();
         handler.removeCallbacksAndMessages(null);
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
     }
 
-    private void customize(){
-        if (args.getParcelable(IMAGE_BITMAP_KEY) != null){
+    private void customize() {
+        if (args.getParcelable(IMAGE_BITMAP_KEY) != null) {
             iconBitmap = args.getParcelable(IMAGE_BITMAP_KEY);
             ImageView imageView = (ImageView) view.findViewById(R.id.loading_image);
             imageView.setImageBitmap(iconBitmap);
@@ -112,7 +119,7 @@ public class LoadingFragment extends Fragment {
             ImageView imageView = (ImageView) view.findViewById(R.id.loading_image);
             imageView.setImageResource(iconId);
         }
-        if (!args.getString(MESSAGE_KEY, loadingMessage).equals(loadingMessage)){
+        if (!args.getString(MESSAGE_KEY, loadingMessage).equals(loadingMessage)) {
             loadingMessage = args.getString(MESSAGE_KEY);
             TextView messageText = (TextView) view.findViewById(R.id.loading_text);
             messageText.setText(loadingMessage);
@@ -122,7 +129,7 @@ public class LoadingFragment extends Fragment {
     public LoadingFragment show(AppCompatActivity activity) {
         activity.getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container,this)
+                .replace(R.id.fragment_container, this)
                 .commit();
         return this;
     }
