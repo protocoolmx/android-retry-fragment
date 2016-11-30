@@ -1,14 +1,13 @@
-plugins {
-    id "com.jfrog.artifactory" version "4.0.0"
-}
-
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
 
 def libraryGroupId = 'cool.proto'
 def libraryArtifactId = 'retry-fragment'
-def libraryVersion = '0.2.0'
+def libraryVersion = '0.4.0'
+
+group = libraryGroupId
+version = libraryVersion
 
 android {
     compileSdkVersion 24
@@ -33,39 +32,37 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:appcompat-v7:24.0.0'
 
 }
 
 
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId libraryGroupId
-            version libraryVersion
-            artifactId libraryArtifactId
-
-            artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
-
-        }
-    }
+task generateSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
 }
 
-artifactory {
-    contextUrl = artifactory_context_url
-    publish {
-        repository {
-            repoKey = 'libs-release-local'
+artifacts {
+    archives generateSourcesJar
+}
 
-            username = artifactory_username
-            password = artifactory_password
+bintray {
+    user = bintray_username
+    key = bintray_api_key
+    pkg {
+        repo = 'maven'
+        name = 'android-retry-fragment' // the name of the package in BinTray
+        userOrg = 'protocool'
+        version {
+            name = 'android-retry-fragment' // the name of your library project
+            desc = 'general loading and retry screen that works for doing certain task in the background.'
+            released  = new Date()
+            vcsTag = libraryVersion // the version
         }
-        defaults {
-            publications('aar')
-            publishArtifacts = true
 
-            properties = ['qa.level': 'basic', 'q.os': 'android', 'dev.team': 'core']
-            publishPom = true
-        }
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/protocoolmx/android-retry-fragment.git' // your GitHub repo
+        websiteUrl = 'https://github.com/protocoolmx/android-retry-fragment' // your website or whatever has documentation
     }
+    configurations = ['archives']
 }

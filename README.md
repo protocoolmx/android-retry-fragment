@@ -1,12 +1,12 @@
 # Retry-Fragment
-## 0.3.0
+## 0.4.0
 
 Easy to use, general loading and retry screen that works for doing certain task in the background. First showing a loading screen, if the criteria doesn't match shows a retry screen until the criteria matches and the screen disappear.
 
 ## Add to dependencies:
 
 ```java
-compile 'cool.proto:retry-fragment:0.3.0'
+compile 'cool.proto:retry-fragment:0.4.0'
 ```
 
 ## How to use:

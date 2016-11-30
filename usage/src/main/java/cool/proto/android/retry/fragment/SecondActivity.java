@@ -32,9 +32,9 @@ public class SecondActivity extends AppCompatActivity implements
         retryMain = new RetryMain(this);
         retryMain.setCustomLoading(
                 new LoadingFragmentBuilder()
-                        .withMessage("JAHA")
+                        .withMessage("Custom Loading")
                         .withDelayTime(2000)
-                        .withIcon(android.R.drawable.ic_btn_speak_now)
+                        .withIcon(android.R.drawable.ic_media_play)
                         .build())
                 .startAsyncTask();
 //                .startSyncTask();
@@ -54,7 +54,7 @@ public class SecondActivity extends AppCompatActivity implements
         retryMain.setCustomRetry(
                 new RetryFragmentBuilder()
                         .withIcon(android.R.drawable.ic_delete)
-                        .withMessage("HHUEHUE")
+                        .withMessage("Error")
                         .build());
         taskCompleteCallback.taskCompleted();
     }
