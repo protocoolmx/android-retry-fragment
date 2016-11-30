@@ -3,13 +3,26 @@
 
 Easy to use, general loading and retry screen that works for doing certain task in the background. First showing a loading screen, if the criteria doesn't match shows a retry screen until the criteria matches and the screen disappear.
 
-## Add to dependencies:
+## Add to dependencies
+
+#### Gradle
 
 ```java
 compile 'cool.proto:retry-fragment:0.4.0'
 ```
 
-## How to use:
+#### Maven
+
+```java
+<dependency>
+  <groupId>cool.proto</groupId>
+  <artifactId>retry-fragment</artifactId>
+  <version>0.3.0</version>
+  <type>pom</type>
+</dependency>
+```
+
+## How to use
 
 First you must include the `retry_fragment_container` in your xml layout at the same level of your content.
 
@@ -36,11 +49,10 @@ Also you must have your content and the include inside a RelativeLayout with con
 
 Then in the activity implement the following listeners.
 
-**Note:** RetryTaskCallback exist as synchronous task (`RetrySyncTaskCallback`) and asynchronous task (`RetryAsyncTaskCallback`). Use the one that work better for you.
+**Note:** RetryTaskCallback exist as synchronous task (`RetrySyncTaskCallback`) and asynchronous task (`RetryAsyncTaskCallback`). Use the one that works better for you.
 
 ```java
-RetryCriteriaCallback, RetryAsyncTaskCallback or RetrySyncTaskCallback
-
+public class SomeClass implements RetryCriteriaCallback, RetryAsyncTaskCallback {
 
 @Override
 public boolean retryCriteria() {
@@ -57,12 +69,24 @@ public void retryTask(RetryTaskRunner.TaskCompleteCallback taskCompleteCallback)
     taskCompleteCallback.taskCompleted();
 }
 
+...
+```
+Or
+```java
+public class SomeClass implements RetryCriteriaCallback, RetrySyncTaskCallback {
+
+@Override
+public boolean retryCriteria() {
+    // Return the criteria that you want to get from the task
+    return true;
+}
+
 // For RetrySyncTaskCallback use this
 @Override
 public void retryTask() {
     // Task to run in background
 }
-
+...
 ```
 
 Finally create a new instance of `RetryMain(this)` and start `startAsyncTask()` or `startSyncTask()` depending on the type of task you want.
@@ -106,7 +130,7 @@ retry.setCustomRetry(RetryFragmentBuilder()
 
 We will start a new activity in which will have a task of adding 1 to a variable and check with the criteria if the variable is 2.
 
-first we add the implementation for `RetryCriteriaCallback` and `RetryAsyncTaskCallback`.
+First we add the implementation for `RetryCriteriaCallback` and `RetryAsyncTaskCallback`.
 
 ```java
 public class SecondActivity extends AppCompatActivity implements
@@ -122,11 +146,7 @@ public class SecondActivity extends AppCompatActivity implements
   public void retryTask(RetryTaskRunner.TaskCompleteCallback taskCompleteCallback) {
 
       numberOfRetries++;
-      retryMain.setCustomRetry(
-        new RetryFragmentBuilder()
-                .withIcon(android.R.drawable.ic_delete)
-                .withMessage("Custom Error")
-                .build());
+
       taskCompleteCallback.taskCompleted();
   }
 }
@@ -146,17 +166,24 @@ public void onCreate(Bundle bundle) {
 
     retryMain = new RetryMain(this);
     retryMain.setCustomLoading(
-            new LoadingFragmentBuilder()
+              new LoadingFragmentBuilder()
                     .withMessage("Custom Loading")
                     .withDelayTime(2000)
                     .withIcon(android.R.drawable.ic_btn_speak_now)
-                    .build())
-            .startAsyncTask();
+                    .build());
+
+    retryMain.setCustomRetry(
+              new RetryFragmentBuilder()
+                    .withIcon(android.R.drawable.ic_delete)
+                    .withMessage("Custom Error")
+                    .build());
+
+    retryMain.startAsyncTask();
 
 }
 ```
 
-So in short when we enter to the SecondActivity we will start with a custom loading screen and do the RetryAsyncTask, after that the criteria will not match with what we want so it will appear the custom retry screen.after we press the retry button and do the task again the criteria will match and the loading will be gone.
+So in short when we enter to the SecondActivity, we will start with a custom loading screen, and do the RetryAsyncTask. After that the criteria will not match with what we want so it will appear the custom retry screen. Then we press the retry button, and do the task again the criteria will match and the loading will be gone.
 
 And that's it.
 
@@ -167,6 +194,8 @@ Moises Salas
 moises.salas@proto.cool
 
 moisesgsaa@gmail.com
+
+Also thanks to Joshua Marquez for creating [java-retry-pattern](https://github.com/protocoolmx/java-retry-pattern)
 
 ## License
 
