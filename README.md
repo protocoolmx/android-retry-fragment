@@ -17,7 +17,7 @@ compile 'cool.proto:retry-fragment:0.4.0'
 <dependency>
   <groupId>cool.proto</groupId>
   <artifactId>retry-fragment</artifactId>
-  <version>0.3.0</version>
+  <version>0.4.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -51,56 +51,60 @@ Then in the activity implement the following listeners.
 
 **Note:** RetryTaskCallback exist as synchronous task (`RetrySyncTaskCallback`) and asynchronous task (`RetryAsyncTaskCallback`). Use the one that works better for you.
 
+#### Asynchronous task
+
 ```java
 public class SomeClass implements RetryCriteriaCallback, RetryAsyncTaskCallback {
 
-@Override
-public boolean retryCriteria() {
-    // Return the criteria that you want to get from the task
-    return true;
-}
+  @Override
+  public boolean retryCriteria() {
+      // Return the criteria that you want to get from the task
+      return true;
+  }
 
-// For RetryAsyncTaskCallback use this
-@Override
-public void retryTask(RetryTaskRunner.TaskCompleteCallback taskCompleteCallback) {
+  // For RetryAsyncTaskCallback use this
+  @Override
+  public void retryTask(RetryTaskRunner.TaskCompleteCallback taskCompleteCallback) {
 
-    // Task to run in background
+      // Task to run in background
 
-    taskCompleteCallback.taskCompleted();
-}
-
-...
+      taskCompleteCallback.taskCompleted();
+  }
+  ...
 ```
+
+#### Synchronous task
+
 Or
 ```java
 public class SomeClass implements RetryCriteriaCallback, RetrySyncTaskCallback {
 
-@Override
-public boolean retryCriteria() {
-    // Return the criteria that you want to get from the task
-    return true;
-}
+  @Override
+  public boolean retryCriteria() {
+      // Return the criteria that you want to get from the task
+      return true;
+  }
 
-// For RetrySyncTaskCallback use this
-@Override
-public void retryTask() {
-    // Task to run in background
-}
-...
+  // For RetrySyncTaskCallback use this
+  @Override
+  public void retryTask() {
+      // Task to run in background
+  }
+  ...
 ```
 
 Finally create a new instance of `RetryMain(this)` and start `startAsyncTask()` or `startSyncTask()` depending on the type of task you want.
 
 ```java
-RetryMain retryMain = new RetryMain(this);
-retryMain.startSyncTask();
+  RetryMain retryMain = new RetryMain(this);
+  retryMain.startSyncTask();
 ```
 
 ## Customization
 
 You can customize the text and icon that appears in the loading and retry screen, using the `LoadingFragmentBuilder()` to customize the loading screen and `RetryFragmentBuilder()` to customize the retry screen.
 
-##### LoadingFragmentBuilder()
+#### LoadingFragmentBuilder()
 
 With these you can customize the message of loading that appears, the time that passes before running the task and the icon that appears.
 
@@ -112,7 +116,7 @@ retry.setCustomLoading(LoadingFragmentBuilder()
                       .build());
 ```
 
-##### RetryFragmentBuilder()
+#### RetryFragmentBuilder()
 
 You can customize the error message, the button text and the error icon.
 
@@ -126,7 +130,7 @@ retry.setCustomRetry(RetryFragmentBuilder()
 
 ## Example
 
-**NOTE:** the **usage** module is an android project you can launch to check how it works.
+**NOTE:** the [`usage`](usage) module is an android project you can launch to check how it works.
 
 We will start a new activity in which will have a task of adding 1 to a variable and check with the criteria if the variable is 2.
 
