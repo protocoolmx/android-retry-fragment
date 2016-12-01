@@ -54,7 +54,7 @@ bintray {
         name = 'android-retry-fragment' // the name of the package in BinTray
         userOrg = 'protocool'
         version {
-            name = 'android-retry-fragment' // the name of your library project
+            name = libraryVersion // the name of your library project
             desc = 'general loading and retry screen that works for doing certain task in the background.'
             released  = new Date()
             vcsTag = libraryVersion // the version
