@@ -1,0 +1,68 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+def libraryGroupId = 'cool.proto'
+def libraryArtifactId = 'retry-fragment'
+def libraryVersion = '0.4.0'
+
+group = libraryGroupId
+version = libraryVersion
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 24
+        versionCode 2
+        versionName libraryVersion
+        multiDexEnabled true
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:24.0.0'
+
+}
+
+
+task generateSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+artifacts {
+    archives generateSourcesJar
+}
+
+bintray {
+    user = bintray_username
+    key = bintray_api_key
+    pkg {
+        repo = 'maven'
+        name = 'android-retry-fragment' // the name of the package in BinTray
+        userOrg = 'protocool'
+        version {
+            name = 'android-retry-fragment' // the name of your library project
+            desc = 'general loading and retry screen that works for doing certain task in the background.'
+            released  = new Date()
+            vcsTag = libraryVersion // the version
+        }
+
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/protocoolmx/android-retry-fragment.git' // your GitHub repo
+        websiteUrl = 'https://github.com/protocoolmx/android-retry-fragment' // your website or whatever has documentation
+    }
+    configurations = ['archives']
+}
