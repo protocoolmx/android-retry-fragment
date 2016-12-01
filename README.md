@@ -56,21 +56,21 @@ Then in the activity implement the following listeners.
 ```java
 public class SomeClass implements RetryCriteriaCallback, RetryAsyncTaskCallback {
 
-  @Override
-  public boolean retryCriteria() {
-      // Return the criteria that you want to get from the task
-      return true;
-  }
+    @Override
+    public boolean retryCriteria() {
+        // Return the criteria that you want to get from the task
+        return true;
+    }
 
-  // For RetryAsyncTaskCallback use this
-  @Override
-  public void retryTask(RetryTaskRunner.TaskCompleteCallback taskCompleteCallback) {
+    // For RetryAsyncTaskCallback use this
+    @Override
+    public void retryTask(RetryTaskRunner.TaskCompleteCallback taskCompleteCallback) {
 
-      // Task to run in background
+        // Task to run in background
 
-      taskCompleteCallback.taskCompleted();
-  }
-  ...
+        taskCompleteCallback.taskCompleted();
+    }
+    ...
 ```
 
 #### Synchronous task
@@ -79,25 +79,25 @@ Or
 ```java
 public class SomeClass implements RetryCriteriaCallback, RetrySyncTaskCallback {
 
-  @Override
-  public boolean retryCriteria() {
-      // Return the criteria that you want to get from the task
-      return true;
-  }
+    @Override
+    public boolean retryCriteria() {
+        // Return the criteria that you want to get from the task
+        return true;
+    }
 
-  // For RetrySyncTaskCallback use this
-  @Override
-  public void retryTask() {
-      // Task to run in background
-  }
-  ...
+    // For RetrySyncTaskCallback use this
+    @Override
+    public void retryTask() {
+        // Task to run in background
+    }
+    ...
 ```
 
 Finally create a new instance of `RetryMain(this)` and start `startAsyncTask()` or `startSyncTask()` depending on the type of task you want.
 
 ```java
-  RetryMain retryMain = new RetryMain(this);
-  retryMain.startSyncTask();
+    RetryMain retryMain = new RetryMain(this);
+    retryMain.startSyncTask();
 ```
 
 ## Customization
@@ -109,11 +109,11 @@ You can customize the text and icon that appears in the loading and retry screen
 With these you can customize the message of loading that appears, the time that passes before running the task and the icon that appears.
 
 ```java
-retry.setCustomLoading(LoadingFragmentBuilder()
-                      .withMessage("Loading")
-                      .withIcon(R.drawable.icon)  
-                      .withDelayTime(3000)
-                      .build());
+    retry.setCustomLoading(LoadingFragmentBuilder()
+                          .withMessage("Loading")
+                          .withIcon(R.drawable.icon)  
+                          .withDelayTime(3000)
+                          .build());
 ```
 
 #### RetryFragmentBuilder()
@@ -121,11 +121,11 @@ retry.setCustomLoading(LoadingFragmentBuilder()
 You can customize the error message, the button text and the error icon.
 
 ```java
-retry.setCustomRetry(RetryFragmentBuilder()
-                      .withMessage("ERROR")
-                      .withIcon(R.drawable.error_icon)
-                      .withButtonMessage("Retry?")
-                      .build());
+    retry.setCustomRetry(RetryFragmentBuilder()
+                          .withMessage("ERROR")
+                          .withIcon(R.drawable.error_icon)
+                          .withButtonMessage("Retry?")
+                          .build());
 ```
 
 ## Example
