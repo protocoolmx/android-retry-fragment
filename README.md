@@ -1,19 +1,19 @@
 # Retry-Fragment
-## 0.4.0
+![bintray](https://img.shields.io/badge/bintray-0.4.0-brightgreen.svg)
 
 Easy to use, general loading and retry screen that works for doing certain task in the background. First showing a loading screen, if the criteria doesn't match shows a retry screen until the criteria matches and the screen disappear.
 
-## Add to dependencies
+## Installation
 
-#### Gradle
+### Gradle
 
-```java
+```groovy
 compile 'cool.proto:retry-fragment:0.4.0'
 ```
 
-#### Maven
+### Maven
 
-```java
+```xml
 <dependency>
   <groupId>cool.proto</groupId>
   <artifactId>retry-fragment</artifactId>
