@@ -1,5 +1,5 @@
 # Retry-Fragment
-![bintray](https://img.shields.io/badge/bintray-0.4.0-brightgreen.svg)
+[![Download](https://img.shields.io/badge/bintray-0.4.0-brightgreen.svg)](https://bintray.com/protocool/maven/android-retry-fragment/0.4.0)
 
 Easy to use, general loading and retry screen that works for doing certain task in the background. First showing a loading screen, if the criteria doesn't match shows a retry screen until the criteria matches and the screen disappear.
 
@@ -96,8 +96,8 @@ public class SomeClass implements RetryCriteriaCallback, RetrySyncTaskCallback {
 Finally create a new instance of `RetryMain(this)` and start `startAsyncTask()` or `startSyncTask()` depending on the type of task you want.
 
 ```java
-    RetryMain retryMain = new RetryMain(this);
-    retryMain.startSyncTask();
+RetryMain retryMain = new RetryMain(this);
+retryMain.startSyncTask();
 ```
 
 ## Customization
@@ -109,11 +109,11 @@ You can customize the text and icon that appears in the loading and retry screen
 With these you can customize the message of loading that appears, the time that passes before running the task and the icon that appears.
 
 ```java
-    retry.setCustomLoading(LoadingFragmentBuilder()
-                          .withMessage("Loading")
-                          .withIcon(R.drawable.icon)  
-                          .withDelayTime(3000)
-                          .build());
+retry.setCustomLoading(LoadingFragmentBuilder()
+                      .withMessage("Loading")
+                      .withIcon(R.drawable.icon)  
+                      .withDelayTime(3000)
+                      .build());
 ```
 
 #### RetryFragmentBuilder()
@@ -121,11 +121,11 @@ With these you can customize the message of loading that appears, the time that 
 You can customize the error message, the button text and the error icon.
 
 ```java
-    retry.setCustomRetry(RetryFragmentBuilder()
-                          .withMessage("ERROR")
-                          .withIcon(R.drawable.error_icon)
-                          .withButtonMessage("Retry?")
-                          .build());
+retry.setCustomRetry(RetryFragmentBuilder()
+                      .withMessage("ERROR")
+                      .withIcon(R.drawable.error_icon)
+                      .withButtonMessage("Retry?")
+                      .build());
 ```
 
 ## Example
