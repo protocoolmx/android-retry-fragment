@@ -66,20 +66,3 @@ public class SecondActivity extends AppCompatActivity implements
 //
 //    }
 }
-
-public class SomeClass implements RetryCriteriaCallback, RetryAsyncTaskCallback {
-
-    @Override
-    public boolean retryCriteria() {
-        // Return the criteria that you want to get from the task
-        return true;
-    }
-
-    // For RetryAsyncTaskCallback use this
-    @Override
-    public void retryTask(RetryTaskRunner.TaskCompleteCallback taskCompleteCallback) {
-
-        // Task to run in background
-
-        taskCompleteCallback.taskCompleted();
-    }
