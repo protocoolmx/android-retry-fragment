@@ -73,6 +73,10 @@ captures/
 .idea/dynamic.xml
 .idea/uiDesigner.xml
 
+# Markdown
+.idea/markdown-navigator.xml
+.idea/markdown-navigator/
+
 # Gradle:
 .idea/gradle.xml
 .idea/libraries
