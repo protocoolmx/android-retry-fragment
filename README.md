@@ -131,6 +131,10 @@ retry.setCustomRetry(RetryFragmentBuilder()
         .build());
 ```
 
+## Screenshots
+
+![Loading](screenshots/1.png) ![Retry](screenshots/2.png)
+
 ## Example
 
 **NOTE:** the [`usage`](usage) module is an android project you can launch to check how it works.
