@@ -191,6 +191,39 @@ So in short when we enter to the SecondActivity, we will start with a custom loa
 
 And that's it.
 
+## Troubleshooting
+
+If you encounter an error of a method that doesn't exist in support it could be because the retry fragment has the appcompat-v7 24.0.0 so probably it's causing confilcts, like this one:
+
+`No static method setLayoutDirection(Landroid/graphics/drawable/Drawable;I)V in class Landroid/support/v4/graphics/drawable/DrawableCompat; or its super classes`
+
+Or something similar. You should exclude appcompat from the retry fragment.
+
+### Gradle
+
+```groovy
+    compile ('cool.proto:retry-fragment:0.4.0'){
+        exclude module:'appcompat-v7'
+    }
+```
+
+### Maven
+
+```xml
+    <dependency>
+    <groupId>cool.proto</groupId>
+    <artifactId>retry-fragment</artifactId>
+    <version>0.4.0</version>
+    <type>pom</type>
+      <exclusions>
+        <exclusion>  <!-- declare the exclusion here -->
+          <groupId>com.android.support</groupId>
+          <artifactId>appcompat-v7</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+```
+
 ## Contributors
 
 * [Moises Salas](https://github.com/D4C1)
