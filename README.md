@@ -3,6 +3,8 @@
 
 Easy to use, general loading and retry screen that works for doing certain task in the background. First showing a loading screen, if the criteria doesn't match shows a retry screen until the criteria matches and the screen disappear.
 
+This lib makes use of the [java-retry-pattern](https://github.com/protocoolmx/java-retry-pattern) implementation.
+
 ## Installation
 
 ### Gradle
@@ -37,13 +39,13 @@ Also you must have your content and the include inside a RelativeLayout with con
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:context=".MainActivity">
 
-<!-- this is the content -->
+                <!-- this is the content -->
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/content"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
-<!-- and this is the include you must add -->
+                <!-- and this is the include you must add -->
                 <include layout="@layout/retry_fragment_container"/>
 ```
 
@@ -70,12 +72,12 @@ public class SomeClass implements RetryCriteriaCallback, RetryAsyncTaskCallback 
 
         taskCompleteCallback.taskCompleted();
     }
+
     ...
 ```
 
 #### Synchronous task
 
-Or
 ```java
 public class SomeClass implements RetryCriteriaCallback, RetrySyncTaskCallback {
 
@@ -90,6 +92,7 @@ public class SomeClass implements RetryCriteriaCallback, RetrySyncTaskCallback {
     public void retryTask() {
         // Task to run in background
     }
+
     ...
 ```
 
@@ -110,10 +113,10 @@ With these you can customize the message of loading that appears, the time that 
 
 ```java
 retry.setCustomLoading(LoadingFragmentBuilder()
-                      .withMessage("Loading")
-                      .withIcon(R.drawable.icon)  
-                      .withDelayTime(3000)
-                      .build());
+      .withMessage("Loading")
+      .withIcon(R.drawable.icon)  
+      .withDelayTime(3000)
+      .build());
 ```
 
 #### RetryFragmentBuilder()
@@ -122,10 +125,10 @@ You can customize the error message, the button text and the error icon.
 
 ```java
 retry.setCustomRetry(RetryFragmentBuilder()
-                      .withMessage("ERROR")
-                      .withIcon(R.drawable.error_icon)
-                      .withButtonMessage("Retry?")
-                      .build());
+        .withMessage("ERROR")
+        .withIcon(R.drawable.error_icon)
+        .withButtonMessage("Retry?")
+        .build());
 ```
 
 ## Example
@@ -137,11 +140,9 @@ We will start a new activity in which will have a task of adding 1 to a variable
 First we add the implementation for `RetryCriteriaCallback` and `RetryAsyncTaskCallback`.
 
 ```java
-public class SecondActivity extends AppCompatActivity implements
-        RetryCriteriaCallback,
-        RetryAsyncTaskCallback {
+public class SecondActivity extends AppCompatActivity implements RetryCriteriaCallback, RetryAsyncTaskCallback {
 
-          @Override
+  @Override
   public boolean retryCriteria() {
       return numberOfRetries == 2;
   }
@@ -155,12 +156,12 @@ public class SecondActivity extends AppCompatActivity implements
   }
 }
 ```
-**Note** that we also create a custom retry for the proccess.
+Notice that we also create a custom retry for the proccess.
 
 Then in the `onCreate` we create a new instance and start the async task.
 
 ```java
-RetryMain retryMain;
+private RetryMain retryMain;
 private int numberOfRetries;
 
 @Override
@@ -183,7 +184,6 @@ public void onCreate(Bundle bundle) {
                     .build());
 
     retryMain.startAsyncTask();
-
 }
 ```
 
@@ -191,15 +191,42 @@ So in short when we enter to the SecondActivity, we will start with a custom loa
 
 And that's it.
 
-## Done by
+## Troubleshooting
 
-Moises Salas
+If you encounter an error of a method that doesn't exist in support it could be because the retry fragment has the appcompat-v7 24.0.0 so probably it's causing confilcts, like this one:
 
-moises.salas@proto.cool
+`No static method setLayoutDirection(Landroid/graphics/drawable/Drawable;I)V in class Landroid/support/v4/graphics/drawable/DrawableCompat; or its super classes`
 
-moisesgsaa@gmail.com
+Or something similar. You should exclude appcompat from the retry fragment.
 
-Also thanks to Joshua Marquez for creating [java-retry-pattern](https://github.com/protocoolmx/java-retry-pattern)
+### Gradle
+
+```groovy
+    compile ('cool.proto:retry-fragment:0.4.0'){
+        exclude module:'appcompat-v7'
+    }
+```
+
+### Maven
+
+```xml
+    <dependency>
+    <groupId>cool.proto</groupId>
+    <artifactId>retry-fragment</artifactId>
+    <version>0.4.0</version>
+    <type>pom</type>
+      <exclusions>
+        <exclusion>  <!-- declare the exclusion here -->
+          <groupId>com.android.support</groupId>
+          <artifactId>appcompat-v7</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+```
+
+## Contributors
+
+* [Moises Salas](https://github.com/D4C1)
 
 ## License
 
