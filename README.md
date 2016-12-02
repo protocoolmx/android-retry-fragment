@@ -199,7 +199,7 @@ If you encounter an error of a method that doesn't exist in support it could be 
 
 Or something similar. You should exclude appcompat from the retry fragment.
 
-### gradle
+### Gradle
 
 ```groovy
     compile ('cool.proto:retry-fragment:0.4.0'){
@@ -207,7 +207,7 @@ Or something similar. You should exclude appcompat from the retry fragment.
     }
 ```
 
-### maven
+### Maven
 
 ```xml
     <dependency>
@@ -220,7 +220,7 @@ Or something similar. You should exclude appcompat from the retry fragment.
           <groupId>com.android.support</groupId>
           <artifactId>appcompat-v7</artifactId>
         </exclusion>
-      </exclusions> 
+      </exclusions>
     </dependency>
 ```
 
