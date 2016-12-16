@@ -35,24 +35,12 @@ public class LoadingFragment extends Fragment {
     private Bundle args;
     private String loadingMessage;
     private int iconId;
+    private int customDelayTime;
     private Bitmap iconBitmap;
-    private FragmentActivity myContext;
 
 
     public interface OnLoadingListener {
         void onLoadingFinish();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        myContext = (FragmentActivity) activity;
-        super.onAttach(activity);
-
-//        try {
-//            callBack = (OnLoadingListener) activity;
-//        }catch (ClassCastException e) {
-//            throw new ClassCastException(activity.toString() + "must implement onLoadingListener");
-//        }
     }
 
     public void setCallBack(OnLoadingListener callBack) {
@@ -69,32 +57,33 @@ public class LoadingFragment extends Fragment {
 
         if (args != null) {
             customize();
-
-            if (args.getInt(DELAY_TIME_KEY, 0) != 0) {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loading();
-                    }
-                }, args.getInt(DELAY_TIME_KEY));
-
-                return view;
-            }
         }
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loading();
-            }
-        }, DELAY_TIME);
-
 
         return view;
     }
 
     public void loading() {
-        callBack.onLoadingFinish();
+        if (customDelayTime != 0) {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    callBack.onLoadingFinish();
+                }
+            }, customDelayTime);
+        } else {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    callBack.onLoadingFinish();
+                }
+            }, DELAY_TIME);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loading();
     }
 
     @Override
@@ -123,6 +112,9 @@ public class LoadingFragment extends Fragment {
             loadingMessage = args.getString(MESSAGE_KEY);
             TextView messageText = (TextView) view.findViewById(R.id.loading_text);
             messageText.setText(loadingMessage);
+        }
+        if (args.getInt(DELAY_TIME_KEY, 0) != 0) {
+            customDelayTime = args.getInt(DELAY_TIME_KEY);
         }
     }
 
