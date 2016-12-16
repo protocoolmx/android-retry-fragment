@@ -34,21 +34,9 @@ public class RetryFragment extends Fragment {
     private String errorMessage;
     private String buttonMessage;
     private int imageId;
-    private Bitmap imageBitmap;
 
     public interface OnRetryListener {
         void onRetry();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-//        try {
-//            callBack = (OnRetryListener) activity;
-//        }catch (ClassCastException e) {
-//            throw new ClassCastException(activity.toString() + "must implement onLoadingListener");
-//        }
     }
 
     public void setCallBack(OnRetryListener callBack) {
@@ -67,7 +55,7 @@ public class RetryFragment extends Fragment {
             customize();
         }
 
-        Button button =  (Button) view.findViewById(R.id.btn_retry);
+        Button button = (Button) view.findViewById(R.id.btn_retry);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,8 +65,8 @@ public class RetryFragment extends Fragment {
         return view;
     }
 
-    private void customize(){
-        if (!args.getString(MESSAGE_KEY, errorMessage).equals(errorMessage)){
+    private void customize() {
+        if (!args.getString(MESSAGE_KEY, errorMessage).equals(errorMessage)) {
             errorMessage = args.getString(MESSAGE_KEY);
             TextView messageText = (TextView) view.findViewById(R.id.retry_message);
             messageText.setText(errorMessage);
@@ -86,26 +74,26 @@ public class RetryFragment extends Fragment {
             TextView messageText = (TextView) view.findViewById(R.id.retry_message);
             messageText.setText(errorMessage);
         }
-        if (args.getParcelable(IMAGE_BITMAP_KEY) != null){
+        if (args.getParcelable(IMAGE_BITMAP_KEY) != null) {
             Bitmap bitmap = args.getParcelable(IMAGE_BITMAP_KEY);
             ImageView imageView = (ImageView) view.findViewById(R.id.retry_image);
             imageView.setImageBitmap(bitmap);
-        } else if (args.getInt(IMAGE_KEY, 0) != 0){
+        } else if (args.getInt(IMAGE_KEY, 0) != 0) {
             imageId = args.getInt(IMAGE_KEY);
             ImageView imageView = (ImageView) view.findViewById(R.id.retry_image);
             imageView.setImageResource(imageId);
         }
-        if (!args.getString(BUTTON_MESSAGE_KEY, buttonMessage).equals(buttonMessage)){
+        if (!args.getString(BUTTON_MESSAGE_KEY, buttonMessage).equals(buttonMessage)) {
             buttonMessage = args.getString(BUTTON_MESSAGE_KEY);
-            Button button =  (Button) view.findViewById(R.id.btn_retry);
+            Button button = (Button) view.findViewById(R.id.btn_retry);
             button.setText(buttonMessage);
         }
     }
 
-    public RetryFragment show(AppCompatActivity activity){
+    public RetryFragment show(AppCompatActivity activity) {
         activity.getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container,this)
+                .replace(R.id.fragment_container, this)
                 .commit();
         return this;
     }

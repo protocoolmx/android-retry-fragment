@@ -37,23 +37,10 @@ public class LoadingFragment extends Fragment {
     private int iconId;
     private int customDelayTime;
     private Bitmap iconBitmap;
-    private FragmentActivity myContext;
 
 
     public interface OnLoadingListener {
         void onLoadingFinish();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        myContext = (FragmentActivity) activity;
-        super.onAttach(activity);
-
-//        try {
-//            callBack = (OnLoadingListener) activity;
-//        }catch (ClassCastException e) {
-//            throw new ClassCastException(activity.toString() + "must implement onLoadingListener");
-//        }
     }
 
     public void setCallBack(OnLoadingListener callBack) {
@@ -76,14 +63,14 @@ public class LoadingFragment extends Fragment {
     }
 
     public void loading() {
-        if (customDelayTime != 0){
+        if (customDelayTime != 0) {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     callBack.onLoadingFinish();
                 }
             }, customDelayTime);
-        }else {
+        } else {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
