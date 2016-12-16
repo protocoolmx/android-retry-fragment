@@ -1,5 +1,5 @@
 # Retry-Fragment
-[![Download](https://img.shields.io/badge/bintray-0.4.0-brightgreen.svg)](https://bintray.com/protocool/maven/android-retry-fragment/0.4.0)
+[![Download](https://img.shields.io/badge/bintray-0.4.1-brightgreen.svg)](https://bintray.com/protocool/maven/android-retry-fragment/0.4.1)
 
 Easy to use, general loading and retry screen that works for doing certain task in the background. First showing a loading screen, if the criteria doesn't match shows a retry screen until the criteria matches and the screen disappear.
 
@@ -10,7 +10,7 @@ This lib makes use of the [java-retry-pattern](https://github.com/protocoolmx/ja
 ### Gradle
 
 ```groovy
-compile 'cool.proto:retry-fragment:0.4.0'
+compile 'cool.proto:retry-fragment:0.4.1'
 ```
 
 ### Maven
@@ -19,7 +19,7 @@ compile 'cool.proto:retry-fragment:0.4.0'
 <dependency>
   <groupId>cool.proto</groupId>
   <artifactId>retry-fragment</artifactId>
-  <version>0.4.0</version>
+  <version>0.4.1</version>
   <type>pom</type>
 </dependency>
 ```
@@ -206,7 +206,7 @@ Or something similar. You should exclude appcompat from the retry fragment.
 ### Gradle
 
 ```groovy
-    compile ('cool.proto:retry-fragment:0.4.0'){
+    compile ('cool.proto:retry-fragment:0.4.1'){
         exclude module:'appcompat-v7'
     }
 ```
@@ -217,7 +217,7 @@ Or something similar. You should exclude appcompat from the retry fragment.
     <dependency>
     <groupId>cool.proto</groupId>
     <artifactId>retry-fragment</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
     <type>pom</type>
       <exclusions>
         <exclusion>  <!-- declare the exclusion here -->
