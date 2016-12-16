@@ -25,7 +25,7 @@ public class LoadingFragment extends Fragment {
     public static final String MESSAGE_KEY = "message";
     public static final String IMAGE_KEY = "image";
     public static final String IMAGE_BITMAP_KEY = "imageBitmap";
-    public static final String DELAY_TIME_KEY = "delayTime";
+    public static final String DELAY_TIME_KEY = "customDelayTime";
     public static final int DELAY_TIME = 2000;
 
     private OnLoadingListener callBack;
@@ -35,6 +35,7 @@ public class LoadingFragment extends Fragment {
     private Bundle args;
     private String loadingMessage;
     private int iconId;
+    private int customDelayTime;
     private Bitmap iconBitmap;
     private FragmentActivity myContext;
 
@@ -69,32 +70,33 @@ public class LoadingFragment extends Fragment {
 
         if (args != null) {
             customize();
-
-            if (args.getInt(DELAY_TIME_KEY, 0) != 0) {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loading();
-                    }
-                }, args.getInt(DELAY_TIME_KEY));
-
-                return view;
-            }
         }
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loading();
-            }
-        }, DELAY_TIME);
-
 
         return view;
     }
 
     public void loading() {
-        callBack.onLoadingFinish();
+        if (customDelayTime != 0){
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    callBack.onLoadingFinish();
+                }
+            }, customDelayTime);
+        }else {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    callBack.onLoadingFinish();
+                }
+            }, DELAY_TIME);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loading();
     }
 
     @Override
@@ -123,6 +125,9 @@ public class LoadingFragment extends Fragment {
             loadingMessage = args.getString(MESSAGE_KEY);
             TextView messageText = (TextView) view.findViewById(R.id.loading_text);
             messageText.setText(loadingMessage);
+        }
+        if (args.getInt(DELAY_TIME_KEY, 0) != 0) {
+            customDelayTime = args.getInt(DELAY_TIME_KEY);
         }
     }
 
