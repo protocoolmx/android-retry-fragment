@@ -37,6 +37,7 @@ public class LoadingFragment extends Fragment {
     private int iconId;
     private int customDelayTime;
     private Bitmap iconBitmap;
+    private boolean done;
 
 
     public interface OnLoadingListener {
@@ -52,6 +53,7 @@ public class LoadingFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_loading, container, false);
         args = getArguments();
         handler = new Handler();
+        done = false;
 
         loadingMessage = getString(R.string.cool_proto_surf_retry_fragment_loading);
 
@@ -67,6 +69,7 @@ public class LoadingFragment extends Fragment {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    done = true;
                     callBack.onLoadingFinish();
                 }
             }, customDelayTime);
@@ -74,6 +77,7 @@ public class LoadingFragment extends Fragment {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    done = true;
                     callBack.onLoadingFinish();
                 }
             }, DELAY_TIME);
@@ -83,7 +87,9 @@ public class LoadingFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        loading();
+        if (!done){
+            loading();
+        }
     }
 
     @Override
