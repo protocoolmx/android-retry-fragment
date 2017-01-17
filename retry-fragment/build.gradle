@@ -4,7 +4,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 def libraryGroupId = 'cool.proto'
 def libraryArtifactId = 'retry-fragment'
-def libraryVersion = '0.4.1'
+def libraryVersion = '0.4.2'
 
 group = libraryGroupId
 version = libraryVersion
