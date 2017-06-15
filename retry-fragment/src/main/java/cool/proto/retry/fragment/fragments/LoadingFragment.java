@@ -26,7 +26,7 @@ public class LoadingFragment extends Fragment {
     public static final String IMAGE_KEY = "image";
     public static final String IMAGE_BITMAP_KEY = "imageBitmap";
     public static final String DELAY_TIME_KEY = "delayTime";
-    public static final int DELAY_TIME = 2000;
+    public static final int DELAY_TIME = 100;
 
     private OnLoadingListener callBack;
     private Handler handler;
