@@ -33,7 +33,6 @@ public class SecondActivity extends AppCompatActivity implements
         retryMain.setCustomLoading(
                 new LoadingFragmentBuilder()
                         .withMessage("Custom Loading")
-                        .withDelayTime(5000)
                         .withIcon(android.R.drawable.ic_media_play)
                         .build())
                 .startAsyncTask();
