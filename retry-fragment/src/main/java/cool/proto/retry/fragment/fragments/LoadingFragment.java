@@ -128,7 +128,7 @@ public class LoadingFragment extends Fragment {
         activity.getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, this)
-                .commit();
+                .commitAllowingStateLoss();
         return this;
     }
 }
