@@ -4,7 +4,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 def libraryGroupId = 'cool.proto'
 def libraryArtifactId = 'retry-fragment'
-def libraryVersion = '0.4.3'
+def libraryVersion = '0.4.4'
 
 group = libraryGroupId
 version = libraryVersion
@@ -16,7 +16,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 3
+        versionCode 4
         versionName libraryVersion
         multiDexEnabled true
 
