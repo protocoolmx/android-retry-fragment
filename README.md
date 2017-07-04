@@ -1,5 +1,5 @@
 # Retry-Fragment
-[![Download](https://img.shields.io/badge/bintray-0.4.2-brightgreen.svg)](https://bintray.com/protocool/maven/android-retry-fragment/0.4.2)
+[![Download](https://img.shields.io/badge/bintray-0.4.3-brightgreen.svg)](https://bintray.com/protocool/maven/android-retry-fragment/0.4.3)
 
 Easy to use, general loading and retry screen that works for doing certain task in the background. First showing a loading screen, if the criteria doesn't match shows a retry screen until the criteria matches and the screen disappear.
 
@@ -10,7 +10,7 @@ This lib makes use of the [java-retry-pattern](https://github.com/protocoolmx/ja
 ### Gradle
 
 ```groovy
-compile 'cool.proto:retry-fragment:0.4.2'
+compile 'cool.proto:retry-fragment:0.4.3'
 ```
 
 ### Maven
@@ -19,7 +19,7 @@ compile 'cool.proto:retry-fragment:0.4.2'
 <dependency>
   <groupId>cool.proto</groupId>
   <artifactId>retry-fragment</artifactId>
-  <version>0.4.2</version>
+  <version>0.4.3</version>
   <type>pom</type>
 </dependency>
 ```
@@ -197,7 +197,7 @@ And that's it.
 
 ## Troubleshooting
 
-If you encounter an error of a method that doesn't exist in support it could be because the retry fragment has the appcompat-v7 24.0.0 so probably it's causing confilcts, like this one:
+If you encounter an error of a method that doesn't exist in support it could be because the retry fragment has the appcompat-v7 25.0.0 so probably it's causing confilcts, like this one:
 
 `No static method setLayoutDirection(Landroid/graphics/drawable/Drawable;I)V in class Landroid/support/v4/graphics/drawable/DrawableCompat; or its super classes`
 
@@ -206,7 +206,7 @@ Or something similar. You should exclude appcompat from the retry fragment.
 ### Gradle
 
 ```groovy
-    compile ('cool.proto:retry-fragment:0.4.2'){
+    compile ('cool.proto:retry-fragment:0.4.3'){
         exclude module:'appcompat-v7'
     }
 ```
@@ -217,7 +217,7 @@ Or something similar. You should exclude appcompat from the retry fragment.
     <dependency>
     <groupId>cool.proto</groupId>
     <artifactId>retry-fragment</artifactId>
-    <version>0.4.2</version>
+    <version>0.4.3</version>
     <type>pom</type>
       <exclusions>
         <exclusion>  <!-- declare the exclusion here -->
