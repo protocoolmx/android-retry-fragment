@@ -1,40 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:orientation="vertical">
+
+<LinearLayout
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_marginBottom="?attr/actionBarSize"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <ImageView
+            android:layout_gravity="center_horizontal"
             android:id="@+id/retry_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:adjustViewBounds="true" />
 
         <TextView
             android:id="@+id/retry_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="32dp"
-            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
             android:text="@string/cool_proto_surf_retry_fragment_retry_message"
-            android:textColor="#000"
+            android:textColor="#424242"
             android:textSize="24sp" />
 
         <Button
             android:id="@+id/btn_retry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:text="@string/cool_proto_surf_retry_fragment_retry_button"
-            android:textColor="#000" />
+            android:textColor="#424242" />
     </LinearLayout>
-</RelativeLayout>
