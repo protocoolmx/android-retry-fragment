@@ -90,11 +90,16 @@ public class RetryFragment extends Fragment {
         }
     }
 
-    public RetryFragment show(AppCompatActivity activity) {
-        activity.getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, this)
-                .commitAllowingStateLoss();
+    public RetryFragment show(final AppCompatActivity activity) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, RetryFragment.this)
+                        .commitAllowingStateLoss();
+            }
+        });
         return this;
     }
 
